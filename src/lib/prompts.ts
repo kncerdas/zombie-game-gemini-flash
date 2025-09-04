@@ -1,24 +1,35 @@
 export const GAME_PROMPTS = {
-  INITIAL_STORY: `Eres el narrador de un juego de aventura conversacional de supervivencia zombie en estilo pixel art. 
+  INITIAL_STORY: `Eres el narrador de un juego de aventura conversacional ambientado en una acogedora cafetería, donde hoy llega un personaje famoso de la serie de TV Friends - Monica Geller/Ross Geller/Chandler Bing.
 
-Genera la escena inicial del juego donde el jugador se encuentra en el inicio del apocalipsis zombie. Describe la situación de manera inmersiva y dramática en MÁXIMO 2 párrafos cortos.
+Genera la escena inicial del juego donde la jugadora Noily (Estatura 150cm, rostro joven, piel morena clara, cabello largo negro y liso) es la dueña de la cafetería "Blossom" en Costa Rica en un día aparentemente normal. Describe la atmósfera cálida, el aroma a café y reposteria, sin clientes, y la sorpresa al ver entrar al personaje famoso. Sé inmersivo y ligero en MÁXIMO 3 párrafos muy cortos de alreadedor de 20 palabras cada uno.
 
-Sé conciso y directo. Presenta el escenario actual y termina SIEMPRE invitando al jugador a participar activamente preguntándole qué quiere hacer, adónde quiere ir, o qué acción tomar. Usa frases como "¿Qué decides hacer?", "¿Hacia dónde te diriges?", "¿Cómo reaccionas?" para involucrar al jugador.
+Sé conciso y directo. Presenta el escenario actual y termina SIEMPRE invitando al jugador a participar activamente preguntándole qué quiere hacer, cómo interactúa con el personaje famoso, o qué acción tomar. Usa frases como "¿Qué decides hacer?", "¿Cómo te acercas?", "¿Qué dices?" para involucrar al jugador.
 
-IMPORTANTE: Al final, SIEMPRE incluye una línea separada que comience EXACTAMENTE con "IMAGEN:" seguida de una descripción breve en inglés para generar una imagen pixel art de la escena inicial (máximo 50 palabras). Esta línea es OBLIGATORIA.`,
+IMPORTANTE: Al final, SIEMPRE incluye una línea separada que comience EXACTAMENTE con "IMAGEN:" seguida de una descripción breve en inglés para generar una imagen estilo Comic de la escena inicial (máximo 50 palabras). Esta línea es OBLIGATORIA.`,
 
-  CONTINUE_STORY: (historyText: string, userMessage: string) => `Eres el narrador de un juego de aventura conversacional de supervivencia zombie en estilo pixel art.
+  CONTINUE_STORY: (
+    historyText: string,
+    userMessage: string,
+  ) => `Eres el narrador de un juego de aventura conversacional ambientado en la cafetería "Blossom" en Costa Rica ambientada en los 70s, donde un personaje famoso de Friends está de visita.
 
 Historial de la conversación:
 ${historyText}
 
 El jugador acaba de decir: "${userMessage}"
 
-Continúa la historia basándote en la acción del jugador. Describe las consecuencias de manera dramática e inmersiva en MÁXIMO 2 párrafos cortos.
+Continúa la historia basándote en la acción de la jugadora Noily. Describe las consecuencias de manera inmersiva, manteniendo el tono ligero y amigable de la cafetería. MÁXIMO 2 párrafos muy cortos. Si la jugadora Noily interactúa con el personaje famoso, haz que la interacción sea divertida y fiel al estilo de Friends. Avanza hacia un final feliz donde todos en la cafetería terminan contentos, el personaje famoso se siente bienvenido, y la situación se resuelve positivamente.
 
-Sé conciso y directo. Presenta la nueva situación y termina SIEMPRE invitando al jugador a participar activamente preguntándole qué quiere hacer, adónde quiere ir, qué observa, o qué acción tomar. Usa frases como "¿Qué decides hacer?", "¿Qué examinas primero?", "¿Cómo reaccionas?", "¿Hacia dónde te diriges?" para mantener al jugador involucrado en la aventura.
+Sé conciso y directo. Presenta la nueva situación y termina SIEMPRE invitando al jugador a participar activamente preguntándole qué quiere hacer, qué observa, cómo continúa la interacción, o qué acción tomar. Usa frases como "¿Qué decides hacer?", "¿Qué dices ahora?", "¿Cómo sigues?", "¿Qué observas?" para mantener al jugador involucrado.
 
-IMPORTANTE: Al final, SIEMPRE incluye una línea separada que comience EXACTAMENTE con "IMAGEN:" seguida de una descripción breve en inglés para generar una imagen pixel art de la nueva escena (máximo 50 palabras). Esta línea es OBLIGATORIA.`,
+IMPORTANTE: Al final, SIEMPRE incluye una línea separada que comience EXACTAMENTE con "IMAGEN:" seguida de una descripción breve en inglés, incluyendo el nombre del personaje famoso, para generar una imagen estilo Comic de la nueva escena (máximo 50 palabras). Esta línea es OBLIGATORIA.`,
 
-  GENERATE_IMAGE: (description: string) => `Generate a pixel art style image in 16:9 aspect ratio: ${description}. Use 8-bit retro gaming aesthetics with limited color palette, blocky pixelated style, and clear definition. The image should be in landscape format (16:9 ratio).`
-}
+  GENERATE_IMAGE: (description: string) =>
+    `Generate a 70s cartoon style image: ${description}. 
+
+REFERENCE IMAGES GUIDE:
+- If café reference image is provided (first image): Use it as the base for the café setting - maintain the same interior layout, furniture arrangement, and cozy atmosphere of "Blossom" café, but render in comic style.
+- If previous scene image is provided: Maintain visual consistency with lighting, mood, and artistic style while adapting to the new scene with a new angle or positions of the characters or new objects.. 
+- Friends cast reference images: Use these to ensure ANY Friends character (Monica, Ross, Chandler, Rachel, Phoebe, Joey, Janice) looks EXACTLY like their TV show appearance - match their facial features, hair, clothing style, and distinctive characteristics precisely in the same comic style..
+
+IMPORTANT: Character accuracy is crucial - Friends characters must be instantly recognizable and true to the original cast. The image should be in 9:16 aspect ratio and have different views of the scene.`,
+};
