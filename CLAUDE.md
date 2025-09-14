@@ -51,4 +51,10 @@ npm run format
 
 ## Game Mechanics
 
-The game focuses on a cozy café setting with Friends characters in Costa Rica. Player is Noily, the café owner. Game expects Spanish prompts and generates Spanish narratives with English image descriptions. Story continuation requires conversation history. Images use 70s cartoon style with 16:9 aspect ratio. The narrative aims for light, friendly interactions leading to happy endings where everyone feels welcome.
+The game focuses on a cozy café setting with Friends characters in Costa Rica. Players can choose from 8 different characters: Noily (café owner), Kenneth, Katherine, Joshua, Stephen, Ericka, Jason, and Laura. Each character has unique prompts and descriptions. Game expects Spanish prompts and generates Spanish narratives with English image descriptions. Story continuation requires conversation history. Images use 70s cartoon style with 9:16 aspect ratio. The narrative aims for light, friendly interactions leading to happy endings where everyone feels welcome.
+
+### Character System
+- **Character Selection**: Players choose from 8 characters at game start with 32x32 SVG profile images
+- **Character Data**: Defined in `src/lib/characters.ts` with descriptions and profile images
+- **Character-Specific Prompts**: Each character has unique story prompts in `src/lib/prompts/[character].ts`
+- **Prompt Handler**: `src/lib/prompts/index.ts` manages character-specific prompt selection

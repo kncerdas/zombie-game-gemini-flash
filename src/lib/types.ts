@@ -17,15 +17,24 @@ export interface ConversationMessage {
   content: string;
 }
 
+export interface Character {
+  id: string;
+  name: string;
+  description: string;
+  profileImage: string;
+}
+
 export interface GenerateStoryRequest {
   userMessage: string;
   conversationHistory: ConversationMessage[];
   isStart: boolean;
+  characterId: string;
 }
 
 export interface GenerateImageRequest {
   imagePrompt: string;
   previousImage?: GeneratedImage;
+  characterId: string;
 }
 
 export interface GenerateStoryResponse {

@@ -3,23 +3,28 @@ import { generateText } from "ai";
 
 import { type NextRequest, NextResponse } from "next/server";
 
-import { GAME_PROMPTS } from "@/lib/prompts";
+import { getCharacterPrompts } from "@/lib/prompts/index";
 import { GAME_CONFIG } from "@/lib/consts";
 import type { GenerateStoryRequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { userMessage, conversationHistory, isStart }: GenerateStoryRequest =
-      await request.json();
+    const {
+      userMessage,
+      conversationHistory,
+      isStart,
+      characterId,
+    }: GenerateStoryRequest = await request.json();
 
-    let prompt: string = GAME_PROMPTS.INITIAL_STORY;
+    const characterPrompts = getCharacterPrompts(characterId);
+    let prompt: string = characterPrompts.INITIAL_STORY;
 
     if (!isStart) {
       const historyText = conversationHistory
         .map((message) => `${message.role}: ${message.content}`)
         .join("\n");
 
-      prompt = GAME_PROMPTS.CONTINUE_STORY(historyText, userMessage);
+      prompt = characterPrompts.CONTINUE_STORY(historyText, userMessage);
     }
 
     const { text } = await generateText({

@@ -16,16 +16,99 @@ export const UI_MESSAGES = {
 
 export const GAME_CONFIG = {
   IMAGE: {
-    DEFAULT_PROMPT: "Blossom Coffee Shop with a famous Friends character",
     SEPARATOR: "IMAGEN: ",
-    CAFE_REFERENCE:
-      "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqOOxO2YLvLKZgmdcpqnjQ6-gfh94_M8LoGOxTlpLuUHFRnIRh3Ww62ZEOrsb5ROVGnl9ExOsbcJ-ZALAte-DaXcKSrRDiGGZgRKBJoQqAT_bEWQ7xXXlQOfVDW9h0iCgZdTk1z=s680-w680-h510-rw",
-    FRIENDS_CAST_REFERENCES: [
-      // Using direct image URLs that return proper image MIME types
-      "https://i.pinimg.com/564x/1c/ae/a2/1caea20e681ce50e375d2524a66808c3.jpg", // Chandler Bing (Matthew Perry)
-      "https://publish.purewow.net/wp-content/uploads/sites/2/2022/05/ross-gellar-friends-fb.jpg", // Ross Geller (David Schwimmer)
-      "https://images.mummypages.ie/images/15147/757/37/1/5_27/monica-gellar-friends-mp.png", // Monica Geller (Courteney Cox)
-
-    ],
   },
+};
+
+export const CHARACTER_CONFIGS = {
+  noily: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Blossom Coffee Shop with a famous Friends character",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/noily-cafe-owner.jpg", // Female café owner
+      ENVIRONMENT_REFERENCE: "/images/references/environments/blossom-cafe.jpg", // Blossom café reference
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/chandler-bing.jpg", // Chandler Bing
+        "/images/references/characters/ross-geller.jpg", // Ross Geller
+        "/images/references/characters/monica-geller.jpg", // Monica Geller
+      ],
+    },
+  },
+  kenneth: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Park setting with Kenneth and Snoop Dogg sharing cannabis",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/kenneth-casual-guy.jpg", // Casual person
+      ENVIRONMENT_REFERENCE: "/images/references/environments/park-setting.jpg", // Park with trees and benches
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/snoop-dogg.jpg", // Snoop Dogg
+      ],
+    },
+  },
+  katherine: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Office setting with magical Harry Potter elements",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/katherine-professional.jpg", // Professional woman
+      ENVIRONMENT_REFERENCE: "/images/references/environments/office-with-owl.jpg", // Office with magical elements
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/hermione-granger.jpg", // Hermione Granger
+        "/images/references/characters/harry-potter.jpg", // Harry Potter
+        "/images/references/characters/dumbledore.jpg", // Dumbledore
+      ],
+    },
+  },
+  joshua: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Highway scene with alien spacecraft and cosmic sports",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/joshua-regular-guy.jpg", // Regular person
+      ENVIRONMENT_REFERENCE: "/images/references/environments/highway-night.jpg", // Highway at night
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/alien-beings.jpg", // Various alien beings
+      ],
+    },
+  },
+  stephen: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Modern urban setting for gender fluid self-discovery journey",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/stephen-person.jpg", // Person exploring identity
+      ENVIRONMENT_REFERENCE: "/images/references/environments/modern-city-street.jpg", // Modern city street
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/attractive-man.jpg", // Attractive man for story
+      ],
+    },
+  },
+  ericka: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Courthouse office with legal documents and Taylor Swift",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/ericka-court-worker.jpg", // Professional court worker
+      ENVIRONMENT_REFERENCE: "/images/references/environments/courthouse-office.jpg", // Courthouse office
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/taylor-swift.jpg", // Taylor Swift
+      ],
+    },
+  },
+  jason: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Gym environment with fitness equipment and motivational figures",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/jason-athlete.jpg", // Muscular athlete
+      ENVIRONMENT_REFERENCE: "/images/references/environments/modern-gym.jpg", // Modern gym
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/mike-tyson.jpg", // Mike Tyson
+        "/images/references/characters/andrew-tate.jpg", // Andrew Tate
+      ],
+    },
+  },
+  laura: {
+    IMAGE: {
+      DEFAULT_PROMPT: "Space adventure with Guardians of Galaxy ship and characters",
+      MAIN_CHARACTER_REFERENCE: "/images/references/characters/laura-regular-person.jpg", // Regular person
+      ENVIRONMENT_REFERENCE: "/images/references/environments/space-road-milano.jpg", // Milano ship on road
+      CHARACTER_REFERENCES: [
+        "/images/references/characters/star-lord.jpg", // Star-Lord
+        "/images/references/characters/rocket-groot.jpg", // Rocket and Groot
+      ],
+    },
+  },
+};
+
+export const getCharacterConfig = (characterId: string) => {
+  return CHARACTER_CONFIGS[characterId as keyof typeof CHARACTER_CONFIGS] || CHARACTER_CONFIGS.noily;
 };

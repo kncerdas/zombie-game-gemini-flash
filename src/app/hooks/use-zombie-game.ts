@@ -1,23 +1,31 @@
-import { useState, useEffect } from "react";
-import type { GameMessage, GenerateStoryResponse } from "@/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import type {
+  GameMessage,
+  GenerateStoryResponse,
+  Character,
+} from "@/lib/types";
 
 export function useZombieGame() {
   const [messages, setMessages] = useState<GameMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null,
+  );
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    startGame();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const startGame = async () => {
+  const startGame = async (character: Character) => {
+    setSelectedCharacter(character);
     setIsLoading(true);
+    setMessages([]);
 
     try {
       const response = await fetch("/api/generate-story", {
         method: "POST",
-        body: JSON.stringify({ isStart: true }),
+        body: JSON.stringify({
+          isStart: true,
+          characterId: character.id,
+        }),
       });
 
       if (!response.ok) {
@@ -36,7 +44,7 @@ export function useZombieGame() {
       };
 
       setMessages([newMessage]);
-      generateImage(messageId, data.imagePrompt, []);
+      generateImage(messageId, data.imagePrompt, [], character.id);
     } catch (error) {
       console.error("Error generating story:", error);
     } finally {
@@ -48,6 +56,7 @@ export function useZombieGame() {
     messageId: string,
     imagePrompt: string,
     currentMessages: GameMessage[],
+    characterId: string,
   ) => {
     try {
       // Find the last message with an image for style consistency
@@ -61,6 +70,7 @@ export function useZombieGame() {
         body: JSON.stringify({
           imagePrompt: imagePrompt,
           previousImage: lastImageMessage?.image,
+          characterId,
         }),
       });
 
@@ -94,7 +104,7 @@ export function useZombieGame() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !selectedCharacter) return;
 
     const userMessage: GameMessage = {
       id: crypto.randomUUID(),
@@ -113,6 +123,7 @@ export function useZombieGame() {
           userMessage: input,
           conversationHistory: messages,
           isStart: false,
+          characterId: selectedCharacter.id,
         }),
       });
 
@@ -133,7 +144,12 @@ export function useZombieGame() {
 
       setMessages((prevMessages) => {
         const updatedMessages = [...prevMessages, assistantMessage];
-        generateImage(messageId, data.imagePrompt, prevMessages); // Pass previous messages for consistency
+        generateImage(
+          messageId,
+          data.imagePrompt,
+          prevMessages,
+          selectedCharacter.id,
+        ); // Pass previous messages for consistency
         return updatedMessages;
       });
     } catch (error) {
@@ -147,12 +163,56 @@ export function useZombieGame() {
     setInput(e.target.value);
   };
 
+  const speakText = useCallback((text: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.7;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
+      
+      utterance.onstart = () => setIsPlaying(true);
+      utterance.onend = () => setIsPlaying(false);
+      utterance.onerror = () => setIsPlaying(false);
+      
+      window.speechSynthesis.speak(utterance);
+    }
+  }, []);
+
+  const stopSpeech = useCallback(() => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+    }
+  }, []);
+
+  const toggleSpeech = useCallback((text: string) => {
+    if (isPlaying) {
+      stopSpeech();
+    } else {
+      speakText(text);
+    }
+  }, [isPlaying, speakText, stopSpeech]);
+
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   return {
     messages,
     input,
     isLoading,
+    selectedCharacter,
+    isPlaying,
     startGame,
     handleSubmit,
     handleInputChange,
+    speakText,
+    stopSpeech,
+    toggleSpeech,
   };
 }
